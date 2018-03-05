@@ -1,14 +1,15 @@
 // ==UserScript==
-// @name         Manage ignored words for Memrise
-// @namespace    http://tampermonkey.net/
-// @version      0.1
-// @description  You can manage ignored words
-// @author       Sensirex
+// @name           Manage ignored words for Memrise
+// @namespace      https://github.com/sensirex
+// @description    You can manage ignored words
+// @match          https://www.memrise.com/course/*/*/
+// @version        0.0.1
 // @updateURL      https://github.com/sensirex/memrise_manage_ignore/raw/master/memrise_manage_ignore.js
 // @downloadURL    https://github.com/sensirex/memrise_manage_ignore/raw/master/memrise_manage_ignore.js
-// @match        https://www.memrise.com/course/*/*/
-// @grant        none
+// @author         Sensirex
+// @grant          none
 // ==/UserScript==
+
 
 (function() {
     'use strict';
