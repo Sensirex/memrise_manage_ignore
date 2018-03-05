@@ -1,0 +1,1 @@
+# memrise_manage_ignore
