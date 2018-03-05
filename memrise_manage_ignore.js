@@ -3,7 +3,9 @@
 // @namespace    http://tampermonkey.net/
 // @version      0.1
 // @description  You can manage ignored words
-// @author       You
+// @author       Sensirex
+// @updateURL      https://github.com/sensirex/memrise_manage_ignore/raw/master/memrise_manage_ignore.js
+// @downloadURL    https://github.com/sensirex/memrise_manage_ignore/raw/master/memrise_manage_ignore.js
 // @match        https://www.memrise.com/course/*/*/
 // @grant        none
 // ==/UserScript==
