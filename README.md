@@ -25,3 +25,4 @@ The easiest method is through an extension/add-on on chrome/firefox:
 
 Then add the script using the following link: https://github.com/Sensirex/memrise_manage_ignore/raw/master/memrise_manage_ignore.user.js
 
+https://community.memrise.com/t/userscript-manage-ignored-words/22656
