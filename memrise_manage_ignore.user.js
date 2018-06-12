@@ -1,15 +1,12 @@
 // ==UserScript==
-// @name           Manage ignored words for Memrise
-// @namespace      https://github.com/sensirex
-// @description    You can manage ignored words
-// @match          https://www.memrise.com/course/*/*/
-// @version        0.0.1
-// @updateURL      https://github.com/sensirex/memrise_manage_ignore/raw/master/memrise_manage_ignore.js
-// @downloadURL    https://github.com/sensirex/memrise_manage_ignore/raw/master/memrise_manage_ignore.js
-// @author         Sensirex
-// @grant          none
+// @name         Manage ignored words for Memrise
+// @namespace    http://tampermonkey.net/
+// @version      0.1
+// @description  You can manage ignored words
+// @author       You
+// @match        https://www.memrise.com/course/*/*/
+// @grant        none
 // ==/UserScript==
-
 
 (function() {
     'use strict';
@@ -158,6 +155,7 @@
 	              return Object.keys(data.learnables).map(key => ({
 					course_id:		courseId,
 					thing_id: 		data.learnables[key].thing_id,
+					learnable_id:	data.learnables[key].learnable_id,
 					column_a: 		data.thingusers[key]?data.thingusers[key].column_a:1,
 					column_b: 		data.thingusers[key]?data.thingusers[key].column_b:2,
 	                original: 		data.learnables[key].item.value,
@@ -301,13 +299,15 @@
 			workBegin();
 			for(var i in ignore)
 				ignore_data.push({
-					thing_id	: ignore[i].thing_id,
-					column_a	: ignore[i].column_a,
-					column_b	: ignore[i].column_b,
+					learnable_id: ignore[i].learnable_id,
+					// thing_id	: ignore[i].thing_id,
+					// column_a	: ignore[i].column_a,
+					// column_b	: ignore[i].column_b,
 					ignored		: true,
 				});
 			$.ajax({
-			    url: '/api/thinguser/ignore/',
+			    // url: '/api/thinguser/ignore/',
+			    url: '/ajax/ignore_learnables/',
 			    type: 'POST',
 			    data: {
 			        ignore_data: JSON.stringify(ignore_data)
@@ -331,13 +331,15 @@
 			workBegin();
 			for(var i in ignore)
 				ignore_data.push({
-					thing_id	: ignore[i].thing_id,
-					column_a	: ignore[i].column_a,
-					column_b	: ignore[i].column_b,
+					learnable_id: ignore[i].learnable_id,
+					// thing_id	: ignore[i].thing_id,
+					// column_a	: ignore[i].column_a,
+					// column_b	: ignore[i].column_b,
 					ignored		: false,
 				});
 			$.ajax({
-			    url: '/api/thinguser/ignore/',
+			    // url: '/api/thinguser/ignore/',
+				url: '/ajax/ignore_learnables/',
 			    type: 'POST',
 			    data: {
 			        ignore_data: JSON.stringify(ignore_data)
@@ -368,15 +370,17 @@
 						var word=prepare_sentence(words[i].original);
 						if(dictionary.indexOf(word)==-1){
 							ignore_data.push({
-								thing_id	: words[i].thing_id,
-								column_a	: words[i].column_a,
-								column_b	: words[i].column_b,
+								learnable_id: words[i].learnable_id,
+								// thing_id	: words[i].thing_id,
+								// column_a	: words[i].column_a,
+								// column_b	: words[i].column_b,
 								ignored		: true,
 							});
 						}
 					}
 					$.ajax({
-					    url: '/api/thinguser/ignore/',
+					    // url: '/api/thinguser/ignore/',
+						url: '/ajax/ignore_learnables/',
 					    type: 'POST',
 					    data: {
 					        ignore_data: JSON.stringify(ignore_data)
@@ -408,15 +412,17 @@
 						var word=prepare_sentence(words[i].original);
 						if(dictionary.indexOf(word)!=-1){
 							ignore_data.push({
-								thing_id	: words[i].thing_id,
-								column_a	: words[i].column_a,
-								column_b	: words[i].column_b,
+								learnable_id: words[i].learnable_id,
+								// thing_id	: words[i].thing_id,
+								// column_a	: words[i].column_a,
+								// column_b	: words[i].column_b,
 								ignored		: true,
 							});
 						}
 					}
 					$.ajax({
-					    url: '/api/thinguser/ignore/',
+					    // url: '/api/thinguser/ignore/',
+						url: '/ajax/ignore_learnables/',
 					    type: 'POST',
 					    data: {
 					        ignore_data: JSON.stringify(ignore_data)
@@ -443,13 +449,15 @@
 					var ignore_data=[];
 					for(var i in words)
 						ignore_data.push({
-							thing_id	: words[i].thing_id,
-							column_a	: words[i].column_a,
-							column_b	: words[i].column_b,
+							learnable_id: words[i].learnable_id,
+							// thing_id	: words[i].thing_id,
+							// column_a	: words[i].column_a,
+							// column_b	: words[i].column_b,
 							ignored		: true,
 						});
 					$.ajax({
-					    url: '/api/thinguser/ignore/',
+					    // url: '/api/thinguser/ignore/',
+						url: '/ajax/ignore_learnables/',
 					    type: 'POST',
 					    data: {
 					        ignore_data: JSON.stringify(ignore_data)
@@ -476,13 +484,15 @@
 					var ignore_data=[];
 					for(var i in words)
 						ignore_data.push({
-							thing_id	: words[i].thing_id,
-							column_a	: words[i].column_a,
-							column_b	: words[i].column_b,
+							learnable_id: words[i].learnable_id,
+							// thing_id	: words[i].thing_id,
+							// column_a	: words[i].column_a,
+							// column_b	: words[i].column_b,
 							ignored		: false,
 						});
 					$.ajax({
-					    url: '/api/thinguser/ignore/',
+					    // url: '/api/thinguser/ignore/',
+						url: '/ajax/ignore_learnables/',
 					    type: 'POST',
 					    data: {
 					        ignore_data: JSON.stringify(ignore_data)
