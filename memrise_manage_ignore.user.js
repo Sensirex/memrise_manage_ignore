@@ -1,18 +1,28 @@
 // ==UserScript==
 // @name         Manage ignored words for Memrise
 // @namespace    http://tampermonkey.net/
-// @version      0.1
+// @version      0.2
 // @description  You can manage ignored words
 // @author       You
-// @match        https://www.memrise.com/course/*/*/
+// @match        https://app.memrise.com/course/*/*/
 // @grant        none
+// @require      https://code.jquery.com/jquery-3.6.0.min.js
 // ==/UserScript==
 
 (function() {
     'use strict';
 
+    var csrftoken;
+    let cookies = document.cookie.split(',');
+    let pattern = /csrftoken=(.*)/m;
+    for(let j=0; j<cookies.length; j++){
+        if(pattern.test(cookies[j])){
+            csrftoken = pattern.exec( cookies[j])[1];
+        }
+    }
+
 	function getCourseName(courseId){
-		const url = `https://www.memrise.com/ajax/session/?course_id=${courseId}&level_index=1&session_slug=preview`;
+		const url = `https://app.memrise.com/ajax/session/?course_id=${courseId}&level_index=1&session_slug=preview`;
 		return fetch(url, { credentials: 'same-origin' })
 			    .then(res => {
 					// console.log(res)
@@ -23,7 +33,7 @@
 				});
 	}
 
-    var p=/^https:\/\/www.memrise.com\/course\/\d*\/[^/]*\/$/;
+    var p=/^https:\/\/app.memrise.com\/course\/\d*\/[^/]*\/$/;
     if(!p.test(location.href))return;
 	const courseId = location.href.slice(30).match(/\d+/)[0];
 	var course_name="";
@@ -143,7 +153,7 @@
 	// var getWords_cahce=undefined;
 	function getWords(courseId, level,nocache) {
 		// if(!nocache&&getWords_cahce)return getWords_cahce;
-	    const url = `https://www.memrise.com/ajax/session/?course_id=${courseId}&level_index=${level}&session_slug=preview`;
+	    const url = `https://app.memrise.com/ajax/session/?course_id=${courseId}&level_index=${level}&session_slug=preview`;
 	    // console.log('Fetching words from ' + url)
 	    return fetch(url, { credentials: 'same-origin' })
 	      // parse response
@@ -312,6 +322,9 @@
 			    data: {
 			        ignore_data: JSON.stringify(ignore_data)
 			    },
+			    headers: {
+			        'x-csrftoken': csrftoken
+			    },
 			    success: function() {
 					MEMRISE.modal.info('Manage ignored words','Ignoring complete, check it please. Changes: '+ignore_data.length);
 					workEnd();
@@ -343,6 +356,9 @@
 			    type: 'POST',
 			    data: {
 			        ignore_data: JSON.stringify(ignore_data)
+			    },
+			    headers: {
+			        'x-csrftoken': csrftoken
 			    },
 			    success: function() {
 					MEMRISE.modal.info('Manage ignored words','Ignoring complete, check it please. Changes: '+ignore_data.length);
@@ -384,6 +400,9 @@
 					    type: 'POST',
 					    data: {
 					        ignore_data: JSON.stringify(ignore_data)
+					    },
+					    headers: {
+					        'x-csrftoken': csrftoken
 					    },
 					    success: function() {
 							MEMRISE.modal.info('Manage ignored words','Ignoring complete, check it please. Changes: '+ignore_data.length);
@@ -427,12 +446,16 @@
 					    data: {
 					        ignore_data: JSON.stringify(ignore_data)
 					    },
+					    headers: {
+					        'x-csrftoken': csrftoken
+					    },
 					    success: function() {
 							MEMRISE.modal.info('Manage ignored words','Ignoring complete, check it please. Changes: '+ignore_data.length);
 							workEnd();
 							updateBtns();
 					    }
-					}).fail(function(){
+					}).fail(function(err){
+						console.log(err);
 						MEMRISE.modal.info('Manage ignored words','There is some critical errors');
 						workEnd();
 						updateBtns();
@@ -461,6 +484,9 @@
 					    type: 'POST',
 					    data: {
 					        ignore_data: JSON.stringify(ignore_data)
+					    },
+					    headers: {
+					        'x-csrftoken': csrftoken
 					    },
 					    success: function() {
 							MEMRISE.modal.info('Manage ignored words','Ignoring complete, check it please. Changes: '+ignore_data.length);
@@ -496,6 +522,9 @@
 					    type: 'POST',
 					    data: {
 					        ignore_data: JSON.stringify(ignore_data)
+					    },
+					    headers: {
+					        'x-csrftoken': csrftoken
 					    },
 					    success: function() {
 							MEMRISE.modal.info('Manage ignored words','Ignoring complete, check it please. Changes: '+ignore_data.length);
